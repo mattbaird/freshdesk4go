@@ -1,6 +1,7 @@
 package freshdesk
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -19,4 +20,9 @@ type Customer struct {
 	CreatedAt    time.Time              `json:"created_at,omitempty"`
 	UpdatedAt    time.Time              `json:"updated_at,omitempty"`
 	CustomFields map[string]interface{} `json:"custom_field,omitempty"`
+}
+
+func (c *CustomerResponse) Json() string {
+	b, _ := json.Marshal(c)
+	return string(b)
 }
