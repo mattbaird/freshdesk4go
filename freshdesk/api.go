@@ -18,11 +18,11 @@ func NewClient(domain, username, password string, secure bool) FreshDeskClient {
 	return FreshDeskClient{API: api}
 }
 
-/**
-* POST to /contacts.json
-* curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X POST -d '{ "user": { "name":"Super Man", "email":"ram@freshdesk.com" }}' https://domain.freshdesk.com/contacts.json
-* Response JSON
-**/
+// SEE https://freshdesk.com/api#user
+
+// POST to /contacts.json
+// curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X POST -d '{ "user": { "name":"Super Man", "email":"ram@freshdesk.com" }}' https://domain.freshdesk.com/contacts.json
+// Response JSON
 func (client *FreshDeskClient) UserCreate(name, email string) (User, error) {
 	var userResponse UserResponse = UserResponse{}
 	userResponse.User = User{Name: name, Email: email}
@@ -35,11 +35,9 @@ func (client *FreshDeskClient) UserCreate(name, email string) (User, error) {
 	return userResponse.User, err
 }
 
-/**
-* GET /contacts/[id].json
-* curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X GET https://domain.freshdesk.com/contacts/19.json
-* Response JSON
-**/
+// GET /contacts/[id].json
+// curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X GET https://domain.freshdesk.com/contacts/19.json
+// Response JSON
 func (client *FreshDeskClient) UserView(id int) (User, error) {
 	var userResponse UserResponse = UserResponse{}
 	requestUrl := client.BaseUrl() + fmt.Sprintf("/contacts/%v.json", id)
@@ -50,22 +48,20 @@ func (client *FreshDeskClient) UserView(id int) (User, error) {
 	return userResponse.User, err
 }
 
-/**
-* DELETE /contacts/[id].json
-* curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X DELETE https://domain.freshdesk.com/contacts/1.json
-* Response 200 OK
-**/
+// DELETE /contacts/[id].json
+// curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X DELETE https://domain.freshdesk.com/contacts/1.json
+// Response 200 OK
 func (client *FreshDeskClient) UserDelete(id int) (bool, error) {
 	requestUrl := client.BaseUrl() + fmt.Sprintf("/contacts/%v.json", id)
 	err := client.DoWithResult(requestUrl, DELETE, nil)
 	return err == nil, err
 }
 
-/**
-* POST to /customer.json
-* curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X POST -d '{ "user": { "name":"Super Man", "email":"ram@freshdesk.com" }}' https://domain.freshdesk.com/contacts.json
-* Response JSON
-**/
+// see https://freshdesk.com/api#companies
+
+// POST to /customer.json
+// curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X POST -d '{ "user": { "name":"Super Man", "email":"ram@freshdesk.com" }}' https://domain.freshdesk.com/contacts.json
+// Response JSON
 func (client *FreshDeskClient) CustomerCreate(name, domains, description string) (Customer, error) {
 	var customerResponse CustomerResponse = CustomerResponse{}
 	customerResponse.Customer = Customer{Name: name, Domains: domains, Description: description}
@@ -77,11 +73,9 @@ func (client *FreshDeskClient) CustomerCreate(name, domains, description string)
 	return customerResponse.Customer, err
 }
 
-/**
-* GET to /customers.json
-* curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X GET https://domain.freshdesk.com/customers.json
-* Response JSON
-**/
+// GET to /customers.json
+// curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X GET https://domain.freshdesk.com/customers.json
+// Response JSON
 func (client *FreshDeskClient) CustomerList(filter string) ([]Customer, error) {
 	var customerResponses []CustomerResponse
 	requestUrl := client.BaseUrl() + fmt.Sprintf("/customers.json")
@@ -100,11 +94,9 @@ func (client *FreshDeskClient) CustomerList(filter string) ([]Customer, error) {
 
 }
 
-/**
-* GET /customers/[id].json
-* curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X GET https://domain.freshdesk.com/contacts/19.json
-* Response JSON
-**/
+// GET /customers/[id].json
+// curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X GET https://domain.freshdesk.com/contacts/19.json
+// Response JSON
 func (client *FreshDeskClient) CustomerView(id int) (Customer, error) {
 	var customerResponses CustomerResponse
 	requestUrl := client.BaseUrl() + fmt.Sprintf("/customers/%v.json", id)
@@ -115,11 +107,9 @@ func (client *FreshDeskClient) CustomerView(id int) (Customer, error) {
 	return customerResponses.Customer, err
 }
 
-/**
-* DELETE /customers/[id].json
-* curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X DELETE https://domain.freshdesk.com/contacts/1.json
-* Response 200 OK
-**/
+// DELETE /customers/[id].json
+// curl -v -u user@yourcompany.com:test -H "Content-Type: application/json" -X DELETE https://domain.freshdesk.com/contacts/1.json
+// Response 200 OK
 func (client *FreshDeskClient) CustomerDelete(id int) (bool, error) {
 	requestUrl := client.BaseUrl() + fmt.Sprintf("/customers/%v.json", id)
 	err := client.DoWithResult(requestUrl, DELETE, nil)
